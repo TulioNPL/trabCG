@@ -12,6 +12,8 @@ public:
 signals:
 
 public slots:
+    void toggleBackgroundColor(bool toBlack);
+
 protected:
     void initializeGL();
     void resizeGL(int width, int height);
