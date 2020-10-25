@@ -2,6 +2,10 @@
 #define GLWIDGET_H
 
 #include <QGLWidget>
+#include <QtOpenGL>
+#include <iostream>
+#include <fstream>
+#include <limits>
 
 class GLWidget : public QGLWidget
 {
@@ -13,11 +17,15 @@ signals:
 
 public slots:
     void toggleBackgroundColor(bool toBlack);
+    void showFileOpenDialog();
 
 protected:
     void initializeGL();
     void resizeGL(int width, int height);
     void paintGL();
+
+private:
+    void readOFFFile(const QString &fileName);
 
 };
 

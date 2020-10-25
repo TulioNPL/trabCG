@@ -22,3 +22,35 @@ void GLWidget::toggleBackgroundColor(bool toBlack) {
         glClearColor (1, 1, 1, 1);
     updateGL ();
 }
+
+void GLWidget::showFileOpenDialog()
+{
+    QByteArray fileFormat = "off";
+        QString fileName;
+        fileName = QFileDialog :: getOpenFileName ( this,
+            "Open File",
+            QDir :: homePath(),
+            QString("%1 Files (*.%2)")
+            .arg(QString(fileFormat.toUpper()))
+            .arg(QString(fileFormat)));
+
+        if (!fileName.isEmpty()) {
+            readOFFFile(fileName);
+
+            //genNormals();             // Metodo nao implementado
+            //genTexCoordsCylinder();   // Metodo nao implementado
+            //genTangents();            // Metodo nao implementado
+
+            //createVBOs();               // Metodo nao implementado
+            //createShaders();           // Metodo nao implementado
+
+            updateGL();
+        }
+
+}
+
+void GLWidget::readOFFFile(const QString &fileName)
+{
+
+
+}
