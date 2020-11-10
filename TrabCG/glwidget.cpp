@@ -131,3 +131,23 @@ void GLWidget::genTexCoordsCylinder()
         size.y() );
     }
 }
+
+void GLWidget :: genNormals () {
+    delete [] normals;
+    normals = new QVector3D[numVertices ];
+    for (unsigned int i = 0; i < numFaces; i++) {
+        unsigned int i1 = indices[i * 3 ];
+        unsigned int i2 = indices[i * 3 + 1];
+        unsigned int i3 = indices[i * 3 + 2];
+
+        QVector3D v1 = vertices[i1]. toVector3D ();
+        QVector3D v2 = vertices[i2]. toVector3D ();
+        QVector3D v3 = vertices[i3]. toVector3D ();
+        QVector3D faceNormal = QVector3D :: crossProduct(v2 - v1 , v3 - v1);
+        normals[i1] += faceNormal;
+        normals[i2] += faceNormal;
+        normals[i3] += faceNormal;
+    }
+
+    for (unsigned int i = 0; i < numVertices; i++) normals[i]. normalize ();
+}
