@@ -37,9 +37,9 @@ void GLWidget::showFileOpenDialog()
         if (!fileName.isEmpty()) {
             readOFFFile(fileName);
 
-            //genNormals();             // Metodo nao implementado
-            //genTexCoordsCylinder();   // Metodo nao implementado
-            //genTangents();            // Metodo nao implementado
+            genNormals();             // Estima as normais da malha de vertices e guarda no array
+            genTexCoordsCylinder();   // Gera coord de texturas cilindricas para a malha de vertices
+            genTangents();            // Estima vetores tangentes por vertice
 
             //createVBOs();               // Metodo nao implementado
             //createShaders();           // Metodo nao implementado
