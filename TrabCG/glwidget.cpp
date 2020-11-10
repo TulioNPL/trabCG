@@ -49,8 +49,57 @@ void GLWidget::showFileOpenDialog()
 
 }
 
-void GLWidget::readOFFFile(const QString &fileName)
-{
+void GLWidget::readOFFFile(const QString &fileName) {
+    std:: ifstream stream;
+    stream.open(fileName.toAscii (), std:: ifstream ::in);
+    if (! stream.is_open ()) {
+        qWarning("Cannot open file.");
+        return;
+    }
+    std:: string line;
+    stream >> line;
+    stream >> numVertices >> numFaces >> line;
 
+    delete [] vertices;
+    vertices = new QVector4D[numVertices ];
+    delete [] indices;
+    indices = new unsigned int[numFaces * 3];
+
+    if (numVertices > 0) {
+        double minLim = std:: numeric_limits <double >:: min();
+        double maxLim = std:: numeric_limits <double >:: max();
+        QVector4D max(minLim , minLim , minLim , 1.0);
+        QVector4D min(maxLim , maxLim , maxLim , 1.0);
+
+        for (unsigned int i = 0; i < numVertices; i++) {
+            double x, y, z;
+            stream >> x >> y >> z;
+            max.setX(qMax(max.x(), x));
+            max.setY(qMax(max.y(), y));
+            max.setZ(qMax(max.z(), z));
+            min.setX(qMin(min.x(), x));
+            min.setY(qMin(min.y(), y));
+            min.setZ(qMin(min.z(), z));
+
+            vertices[i] = QVector4D(x, y, z, 1.0);
+        }
+        QVector4D midpoint = (min + max) * 0.5;
+        double invdiag = 1 / (max - min).length();
+
+        for (unsigned int i = 0; i < numVertices; i++) {
+            vertices[i] = (vertices[i] - midpoint)*invdiag;
+            vertices[i].setW (1);
+        }
+    }
+
+    for (unsigned int i = 0; i < numFaces; i++) {
+        unsigned int a, b, c;
+        stream >> line >> a >> b >> c;
+        indices[i * 3 ] = a;
+        indices[i * 3 + 1] = b;
+        indices[i * 3 + 2] = c;
+    }
+
+    stream.close ();
 
 }
