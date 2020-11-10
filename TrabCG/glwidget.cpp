@@ -103,3 +103,31 @@ void GLWidget::readOFFFile(const QString &fileName) {
     stream.close ();
 
 }
+
+void GLWidget::genTexCoordsCylinder()
+{
+    delete[] texCoords;
+    texCoords = new QVector2D [numVertices];
+
+    double minLim = std::numeric_limits <double>:: min();
+    double maxLim = std::numeric_limits <double>:: max();
+    QVector2D max (minLim, minLim);
+    QVector2D min (maxLim, maxLim);
+
+    for ( unsigned int i = 0; i < numVertices ; i ++) {
+        QVector2D pos = vertices[i].toVector2D();
+        max.setX(qMax(max.x(), pos.x()));
+        max.setY(qMax(max.y(), pos.y()));
+        min.setX(qMin(min.x(), pos.x()));
+        min.setY(qMin(min.y(), pos.y()));
+    }
+
+    QVector2D size = max - min ;
+    for ( unsigned int i=0; i < numVertices; i++) {
+        double x = 2.0 * (vertices[i].x() - min.x() ) /
+        size.x() - 1.0;
+        texCoords[i] = QVector2D(acos(x) / M_PI ,
+        ( vertices[i].y() - min.y() ) /
+        size.y() );
+    }
+}
