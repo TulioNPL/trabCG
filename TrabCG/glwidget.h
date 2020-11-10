@@ -47,7 +47,7 @@ private:
     unsigned int numVertices;
     unsigned int numFaces;
     QVector4D *vertices;
-    QVector3D *normal;
+    QVector3D *normals;
     QVector2D *texCoords;
     QVector4D *tangents;
     unsigned int *indices;
