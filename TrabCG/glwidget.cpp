@@ -36,7 +36,6 @@ void GLWidget::showFileOpenDialog()
 
         if (!fileName.isEmpty()) {
             readOFFFile(fileName);
-
             genNormals();             // Estima as normais da malha de vertices e guarda no array
             genTexCoordsCylinder();   // Gera coord de texturas cilindricas para a malha de vertices
             genTangents();            // Estima vetores tangentes por vertice
@@ -150,4 +149,71 @@ void GLWidget :: genNormals () {
     }
 
     for (unsigned int i = 0; i < numVertices; i++) normals[i]. normalize ();
+}
+
+void GLWidget::genTangents()
+{
+    delete[] tangents;
+
+    tangents = new QVector4D[numVertices];
+    QVector3D *bitangents = new QVector3D[numVertices];
+
+    for (unsigned int i = 0; i < numFaces; i++) {
+        unsigned int i1 = indices[i * 3    ];
+        unsigned int i2 = indices[i * 3 + 1];
+        unsigned int i3 = indices[i * 3 + 2];
+
+        QVector3D E = vertices[i1].toVector3D();
+        QVector3D F = vertices[i2].toVector3D();
+        QVector3D G = vertices[i3].toVector3D();
+
+        QVector2D stE = texCoords[i1];
+        QVector2D stF = texCoords[i2];
+        QVector2D stG = texCoords[i3];
+
+        QVector3D P = F - E;
+        QVector3D Q = G - E;
+
+        QVector2D st1 = stF - stE;
+        QVector2D st2 = stG - stE;
+
+        QMatrix2x2 M;
+        M(0,0) = st2.y(); M(0,1) = -st1.y();
+        M(1,0) = -st2.x(); M(1,1) = st1.x();
+        M *= (1.0 / (st1.x()*st2.y() - st2.x()*st1.y()));
+
+        QVector4D T = QVector4D(M(0,0)*P.x()+M(0,1)*Q.x(),
+                                M(0,0)*P.y()+M(0,1)*Q.y(),
+                                M(0,0)*P.z()+M(0,1)*Q.z(),
+                                0.0);
+
+        QVector3D B = QVector3D(M(1,0)*P.x()+M(1,1)*Q.x(),
+                                M(1,0)*P.y()+M(1,1)*Q.y(),
+                                M(1,0)*P.z()+M(1,1)*Q.z());
+
+        tangents[i1] += T;
+        tangents[i2] += T;
+        tangents[i3] += T;
+
+        bitangents[i1] += B;
+        bitangents[i2] += B;
+        bitangents[i3] += B;
+
+    }
+
+    for (unsigned int i = 0; i < numVertices; i++) {
+        const QVector3D& n = normals[i];
+        const QVector4D& t = tangents[i];
+
+        tangents[i] = (t - n * QVector3D::dotProduct(n,
+                       t.toVector3D())).normalized();
+
+        QVector3D b = QVector3D::crossProduct(n,
+                      t.toVector3D());
+        double hand = QVector3D::dotProduct(b,
+                      bitangents[i]);
+        tangents[i].setW((hand < 0.0) ? -1.0 : 1.0);
+    }
+
+    delete[] bitangents;
 }
