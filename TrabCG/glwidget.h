@@ -68,11 +68,11 @@ private:
     QMatrix4x4 modelViewMatrix;
     QMatrix4x4 projectionMatrix;
 
-    Camera camera;
-    Light light;
-    Material meterial;
+    //Camera camera;
+    //Light light;
+    //Material meterial;
 
-    TrackBall trackBall;
+    //TrackBall trackBall;
 
     double zoom;
 
