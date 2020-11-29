@@ -23,5 +23,5 @@ void main ()
 	vec4 ambient = ambientProduct;
 
 	gl_FragColor = ambient + diffuse + specular;
-	gl_FragColor .a = 1.0;
+        gl_FragColor.a = 1.0;
 }

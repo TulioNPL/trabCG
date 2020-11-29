@@ -29,7 +29,8 @@ public slots:
     void Gouraud();
     void Phong();
     void PhongTexture();
-    void NormalTexture();
+    void normalTexture();
+    void textureDefault();
 
 protected:
     void mouseMoveEvent(QMouseEvent *event);

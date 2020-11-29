@@ -10,6 +10,7 @@ uniform float shininess;
 uniform sampler2D texColorMap;
 uniform sampler2D texNormalMap;
 
+
 void main ()
 {
 
@@ -26,8 +27,8 @@ void main ()
 	vec4 specular = Ks * specularProduct;
 	vec4 ambient = ambientProduct;
 
-	gl_FragColor = ( ambient + diffuse + specular ) *texture2D ( texColorMap , fTexCoord );
-	gl_FragColor .a = 1.0;
+        gl_FragColor = (ambient + diffuse + specular)*texture2D(texColorMap, fTexCoord);
+        gl_FragColor.a = 1.0;
 
 }
 

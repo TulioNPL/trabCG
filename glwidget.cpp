@@ -525,6 +525,14 @@ void GLWidget::paintGL()
 
 }
 
+
+void GLWidget::textureDefault()
+{
+    qWarning("Texture default function");
+    initializeGL();
+
+}
+
 void GLWidget::Gouraud()
 {
     destroyShaders();
@@ -548,7 +556,8 @@ void GLWidget::PhongTexture()
     createShaders(currentShader);
     animate();
 }
-void GLWidget::NormalTexture()
+
+void GLWidget::normalTexture()
 {
     destroyShaders();
     currentShader = 3;
