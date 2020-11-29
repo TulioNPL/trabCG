@@ -141,11 +141,8 @@ void GLWidget::genTexCoordsCylinder()
 
     QVector2D size = max - min ;
     for ( unsigned int i=0; i < numVertices; i++) {
-        double x = 2.0 * (vertices[i].x() - min.x() ) /
-        size.x() - 1.0;
-        texCoords[i] = QVector2D(acos(x) / M_PI ,
-        ( vertices[i].y() - min.y() ) /
-        size.y() );
+        double x = 2.0 * (vertices[i].x() - min.x() ) / size.x() - 1.0;
+        texCoords[i] = QVector2D(acos(x) /M_PI,(vertices[i].y() - min.y() ) / size.y() );
     }
 }
 
@@ -157,16 +154,17 @@ void GLWidget::genNormals() {
         unsigned int i2 = indices[i * 3 + 1];
         unsigned int i3 = indices[i * 3 + 2];
 
-        QVector3D v1 = vertices[i1]. toVector3D ();
-        QVector3D v2 = vertices[i2]. toVector3D ();
-        QVector3D v3 = vertices[i3]. toVector3D ();
-        QVector3D faceNormal = QVector3D :: crossProduct(v2 - v1 , v3 - v1);
+        QVector3D v1 = vertices[i1].toVector3D();
+        QVector3D v2 = vertices[i2].toVector3D();
+        QVector3D v3 = vertices[i3].toVector3D();
+        QVector3D faceNormal = QVector3D::crossProduct(v2 - v1 , v3 - v1);
         normals[i1] += faceNormal;
         normals[i2] += faceNormal;
         normals[i3] += faceNormal;
     }
 
-    for (unsigned int i = 0; i < numVertices; i++) normals[i]. normalize ();
+    for (unsigned int i = 0; i < numVertices; i++)
+        normals[i]. normalize ();
 }
 
 void GLWidget::genTangents()
@@ -435,9 +433,7 @@ void GLWidget::resizeGL(int width, int height)
     glViewport(0 , 0 , width , height );
 
     projectionMatrix.setToIdentity();
-    projectionMatrix.perspective(60.0 ,
-                                static_cast<qreal>(width) /
-                                static_cast<qreal>(height), 0.1, 20.0);
+    projectionMatrix.perspective(60.0, static_cast<qreal>(width) / static_cast<qreal>(height), 0.1, 20.0);
 
     trackBall.resizeViewport( width, height );
 
@@ -448,8 +444,8 @@ void GLWidget::initializeGL()
 {
     glEnable ( GL_DEPTH_TEST );
 
-    QImage texColor = QImage (":/textures/bricksDiffuse.png");
-    QImage texNormal = QImage ( ":/textures/bricksNormal.png");
+    QImage texColor = QImage (":/textures/Strawberry.png");
+    QImage texNormal = QImage ( ":/textures/Strawberry.png");
     glActiveTexture(GL_TEXTURE0);
     texID [0] = bindTexture(texColor);
     glActiveTexture(GL_TEXTURE1);
@@ -457,7 +453,6 @@ void GLWidget::initializeGL()
 
     connect(&timer, SIGNAL(timeout()), this, SLOT(animate())); // conecta o tempo limite do sinal
     timer.start(0);
-
 }
 
 void GLWidget::paintGL()
@@ -525,17 +520,8 @@ void GLWidget::paintGL()
 
 }
 
-
-void GLWidget::textureDefault()
-{
-    qWarning("Texture default function");
-    initializeGL();
-
-}
-
 void GLWidget::Gouraud()
 {
-    destroyShaders();
     currentShader = 0;
     createShaders(currentShader);
     animate();
@@ -543,7 +529,6 @@ void GLWidget::Gouraud()
 
 void GLWidget::Phong()
 {
-    destroyShaders();
     currentShader = 1;
     createShaders(currentShader);
     animate();
@@ -551,7 +536,6 @@ void GLWidget::Phong()
 
 void GLWidget::PhongTexture()
 {
-    destroyShaders();
     currentShader = 2;
     createShaders(currentShader);
     animate();
@@ -559,7 +543,6 @@ void GLWidget::PhongTexture()
 
 void GLWidget::normalTexture()
 {
-    destroyShaders();
     currentShader = 3;
     createShaders(currentShader);
     animate();

@@ -13,13 +13,11 @@ varying vec3 fL;
 
 void main ()
 {
+    vec4 eyePosition = modelViewMatrix * vPosition ;
 
-	vec4 eyePosition = modelViewMatrix * vPosition;
+    fN = normalMatrix * vNormal ;
+    fL = lightPosition.xyz - eyePosition.xyz;
+    fE = - eyePosition.xyz;
 
-	fN = normalMatrix * vNormal;
-	fL = lightPosition.xyz - eyePosition.xyz;
-	fE = - eyePosition.xyz;
-
-	gl_Position = projectionMatrix * eyePosition;
-
+    gl_Position = projectionMatrix * modelViewMatrix * vPosition;
 }

@@ -13,15 +13,13 @@ varying vec3 fE;
 varying vec3 fL;
 varying vec2 fTexCoord;
 
-void main ()
-{
+void main (){
+    vec4 eyePosition = modelViewMatrix * vPosition;
 
-	vec4 eyePosition = modelViewMatrix * vPosition;
-	fN = normalMatrix * vNormal;
-	fL = lightPosition.xyz - eyePosition.xyz;
-	fE = - eyePosition.xyz;
-	fTexCoord = vTexCoord;
+    fN = normalMatrix * vNormal;
+    fL = lightPosition.xyz - eyePosition.xyz;
+    fE = -eyePosition.xyz;
+    fTexCoord = vTexCoord;
 
-	gl_Position = projectionMatrix * eyePosition;
-
+    gl_Position = projectionMatrix * eyePosition;
 }

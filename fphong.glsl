@@ -9,19 +9,21 @@ uniform float shininess;
 
 void main ()
 {
-	vec3 N = normalize ( fN );
-	vec3 E =normalize ( fE );
-	vec3 L =normalize ( fL );
-	vec3 R =normalize (2.0 * dot (L , N ) * N - L );
 
-	float NdotL = dot (N , L );
-	float Kd = max ( NdotL , 0.0);
-	float Ks = ( NdotL < 0.0) ? 0.0 : pow ( max ( dot (R , E ) , 0.0), shininess );
+    vec3 N = normalize( fN );
+    vec3 E = normalize( fE );
+    vec3 L = normalize( fL );
+    vec3 R = normalize(2.0 * dot(L, N) * N - L);
 
-	vec4 diffuse = Kd * diffuseProduct;
-	vec4 specular = Ks * specularProduct;
-	vec4 ambient = ambientProduct;
+    float NdotL = dot (N, L);
+    float Kd = max (NdotL , 0.0) ;
+    float Ks = ( NdotL < 0.0) ? 0.0 : pow ( max ( dot (R, E), 0.0), shininess );
 
-	gl_FragColor = ambient + diffuse + specular;
-        gl_FragColor.a = 1.0;
+    vec4 diffuse = Kd * diffuseProduct ;
+    vec4 specular = Ks * specularProduct ;
+    vec4 ambient = ambientProduct ;
+
+    gl_FragColor = ambient + diffuse + specular ;
+    gl_FragColor.a = 1.0;
+
 }

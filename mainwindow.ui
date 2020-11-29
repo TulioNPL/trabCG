@@ -84,7 +84,6 @@
     <addaction name="actionGouraud"/>
     <addaction name="actionPhong"/>
     <addaction name="actionPhong_Textura"/>
-    <addaction name="actionTextura_Normal"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTexturas"/>
@@ -238,26 +237,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionTextura_Normal</sender>
-   <signal>triggered()</signal>
-   <receiver>widget</receiver>
-   <slot>normalTexture()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>269</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionPadr_o</sender>
    <signal>triggered()</signal>
    <receiver>widget</receiver>
-   <slot>textureDefault()</slot>
+   <slot>normalTexture()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

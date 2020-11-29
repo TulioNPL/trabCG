@@ -12,5 +12,7 @@
     <qresource prefix="/textures">
         <file>bricksDiffuse.png</file>
         <file>bricksNormal.png</file>
+        <file>glitter.png</file>
+        <file>Strawberry.png</file>
     </qresource>
 </RCC>

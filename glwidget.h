@@ -6,6 +6,8 @@
 #include <iostream>
 #include <fstream>
 #include <limits>
+#include <QWidget>
+#include <GL/glu.h>
 
 #include "camera.h"
 #include "light.h"
@@ -30,7 +32,6 @@ public slots:
     void Phong();
     void PhongTexture();
     void normalTexture();
-    void textureDefault();
 
 protected:
     void mouseMoveEvent(QMouseEvent *event);
@@ -72,7 +73,6 @@ private:
     QGLShader *vertexShader;
     QGLShader *fragmentShader;
     QGLShaderProgram *shaderProgram;
-    unsigned int currentShader;
     unsigned int fpsCounter;
 
     int texID[2];
@@ -89,6 +89,8 @@ private:
     double zoom;
 
     QTimer timer;
+    unsigned int currentShader;
+
 };
 
 #endif // GLWIDGET_H
